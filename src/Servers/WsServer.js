@@ -9,6 +9,8 @@ class WsClient {
         this.socket = socket
         debug('Se ha conectado Abigaíl')
 
+        debug(socket)
+
         this.socket.on('message', this.onMessage)
         this.socket.on('close', this.onClose)
     }

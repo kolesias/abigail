@@ -12,11 +12,19 @@ class TPLink {
     }
 
     async turnOnBulb() {
-        await this.service.getLB100('Sala de estar').setState(1, 100)
+        try {
+            await this.service.getLB100('Sala de estar').setState(1, 100)
+        } catch (error) {
+            debug(`Error al intentar encender la luz: ${error}`)
+        }
     }
 
     async turnOffBulb() {
-        await this.service.getLB100('Sala de estar').setState(0, 0)
+        try {
+            await this.service.getLB100('Sala de estar').setState(0, 0)
+        } catch (error) {
+            debug(`Error al intentar apagar la luz: ${error}`)
+        }
     }
 }
 

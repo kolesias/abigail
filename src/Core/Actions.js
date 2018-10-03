@@ -1,6 +1,7 @@
 const SteamClient = require('../Steam/SteamClient')
 const notifier = require('node-notifier')
 const SonyBravia = require('../Devices/SonyBravia')
+const TPLink = require('../Devices/TPLink')
 
 module.exports = [
     {
