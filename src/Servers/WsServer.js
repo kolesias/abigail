@@ -27,7 +27,12 @@ class WsClient {
 
     send(message) {
         message = JSON.stringify(message)
-        this.socket.send(message)
+
+        try {
+            this.socket.send(message)
+        } catch (error) {
+            remove(clients, (client) => client.id === this.id)
+        }
     }
 }
 

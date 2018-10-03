@@ -11,11 +11,11 @@ class SteamClient {
         this.steamFriends = new Steam.SteamFriends(this.steamClient)
 
         this.callMessages = [
-            'Te estan llamando',
-            'Hey, te llaman',
-            'Hay alguién hablandote',
-            'Hay alguién llamandote',
-            'Voltea, te hablan'
+            'Te estan llamando https://gph.is/1tt6dGm',
+            'Hey, te llaman https://gph.is/1tt6dGm',
+            'Hay alguién hablandote https://gph.is/1tt6dGm',
+            'Hay alguién llamandote https://gph.is/1tt6dGm',
+            'Voltea, te hablan https://gph.is/1tt6dGm'
         ]
 
         //
