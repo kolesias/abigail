@@ -22,7 +22,9 @@ class WsClient {
 
     onClose(code, reason) {
         debug(`Se ha cerrado la conexión con Abigail: ${reason}`)
-        remove(clients, (client) => client.id === this.id)
+
+        //remove(clients, (client) => client.id === this.id)
+        clients = []
     }
 
     send(message) {

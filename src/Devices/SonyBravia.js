@@ -26,7 +26,7 @@ class SonyBravia {
 
         this.request.post('/system', postData)
             .then(response => {
-                debug(response.data)
+                //debug(response.data)
             }).catch(error => {
                 debug(`Error al intentar obtener la información de la TV: ${error}`)
             })
@@ -51,7 +51,7 @@ class SonyBravia {
 
         this.request.post('/system', postData)
             .then(response => {
-                debug(response.data)
+                //debug(response.data)
             }).catch(error => {
                 debug(`Error al intentar encender la TV: ${error}`)
             })
@@ -94,7 +94,7 @@ class SonyBravia {
 
         this.request.post('/system', postData)
             .then(response => {
-                debug(response.data)
+                //debug(response.data)
             }).catch(error => {
                 debug(`Error al intentar apagar la TV: ${error}`)
             })
