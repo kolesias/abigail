@@ -23,6 +23,7 @@
     "supports-color": "^5.5.0",
     "tplink-cloud-api": "^0.3.6",
     "utf-8-validate": "^5.0.1",
+    "uuid": "^3.3.2",
     "wake_on_lan": "^1.0.0",
     "ws": "^6.0.0"
   },

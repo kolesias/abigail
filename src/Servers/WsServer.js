@@ -1,5 +1,6 @@
 const debug = require('debug')('abigail:ws-server')
 const remove = require('lodash/remove')
+const uuidv4 = require('uuid/v4')
 const WebSocket = require('ws')
 
 let clients = []
@@ -7,9 +8,9 @@ let clients = []
 class WsClient {
     constructor(socket) {
         this.socket = socket
-        debug('Se ha conectado Abigaíl')
+        this.id = uuidv4()
 
-        debug(socket)
+        debug(`Se ha conectado Abigaíl (${this.id})`)
 
         this.socket.on('message', this.onMessage)
         this.socket.on('close', this.onClose)
@@ -21,7 +22,7 @@ class WsClient {
 
     onClose(code, reason) {
         debug(`Se ha cerrado la conexión con Abigail: ${reason}`)
-        remove(clients, (client) => client === this)
+        remove(clients, (client) => client.id === this.id)
     }
 
     send(message) {
