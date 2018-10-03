@@ -1,0 +1,9 @@
+env: 
+  worker: true
+  es6: true
+  amd: true
+  node: true
+  commonjs: true
+extends: "prettier"
+parserOptions: 
+  sourceType: script
