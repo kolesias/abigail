@@ -17,7 +17,7 @@ class WsClient {
         this.client.on('error', this.onError.bind(this))
         this.client.on('close', this.onClose.bind(this))
         this.client.on('ping', () => {
-            debug('ping!')
+            //debug('ping!')
         })
     }
 
@@ -39,14 +39,11 @@ class WsClient {
 
     onError(error) {
         debug(`Error al intentar conectarse al túnel: ${error}`)
-
-        setTimeout(() => {
-            this.connect()
-        }, 1500)
     }
 
-    onClose() {
-        debug('Se ha perdido la conexión al túnel')
+    onClose(code, reason) {
+        debug(`Se ha perdido la conexión al túnel: ${reason}`)
+        this.client.terminate()
 
         setTimeout(() => {
             this.connect()

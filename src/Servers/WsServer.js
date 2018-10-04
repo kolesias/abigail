@@ -7,8 +7,8 @@ let clients = []
 
 class WsClient {
     constructor(socket) {
-        this.socket = socket
         this.id = uuidv4()
+        this.socket = socket
         this.isAlive = true
 
         debug(`Se ha conectado Abigaíl (${this.id})`)
@@ -28,7 +28,7 @@ class WsClient {
 
     onClose(code, reason) {
         debug(`Se ha cerrado la conexión con Abigail: ${reason}`)
-        remove(clients, (client) => client.id === this.id)
+        this.remove()
     }
 
     send(message) {
@@ -43,10 +43,23 @@ class WsClient {
 
     terminate() {
         this.socket.terminate()
-        remove(clients, (client) => client.id === this.id)
+        this.remove()
+    }
+
+    remove() {
+        let removed = remove(clients, (client) => client.id === this.id)
+
+        if (removed.length === 0) {
+            debug(`Se ha intentado eliminar la conexión ${this.id} sin éxito!`)
+        }
     }
 
     ping() {
+        if (this.socket.readyState === WebSocket.CLOSED || this.socket.readyState === WebSocket.CLOSING) {
+            this.remove()
+            return
+        }
+
         if (this.isAlive === false) {
             this.terminate()
             return
