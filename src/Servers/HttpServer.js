@@ -22,6 +22,7 @@ class HttpServer {
 
         for (let action of actions) {
             http.get(`/actions${action.path}`, (req, res) => {
+                debug(`API: ${action.path} - ${action.command} - ${req.params.value}`)
                 ActionsManager.exec(action.command, req.params.value)
                 res.end()
             })

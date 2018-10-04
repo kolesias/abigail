@@ -9,11 +9,13 @@ class TPLink {
     async connect() {
         this.service = await login(process.env.TPLINK_USERNAME, process.env.TPLINK_PASSWORD)
         debug(`TPLink auth token: ${this.service.getToken()}`)
+
+        await this.service.getDeviceList()
     }
 
     async turnOnBulb() {
         try {
-            await this.service.getLB100('Sala de estar').setState(1, 100)
+            await this.service.getLB100('Luz de la sala').setState(1, 100)
             debug('Luz encendida')
         } catch (error) {
             debug(`Error al intentar encender la luz: ${error}`)
@@ -22,7 +24,7 @@ class TPLink {
 
     async turnOffBulb() {
         try {
-            await this.service.getLB100('Sala de estar').setState(0, 0)
+            await this.service.getLB100('Luz de la sala').setState(0, 0)
             debug('Luz apagada')
         } catch (error) {
             debug(`Error al intentar apagar la luz: ${error}`)

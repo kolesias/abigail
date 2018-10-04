@@ -10,6 +10,8 @@ module.exports = [
         command: 'call',
 
         handler(name) {
+            name = name.trim().toLowerCase().replace('a ', '').trim()
+
             if (name === 'ivan') {
                 notifier.notify({
                     title: '¡Te estan llamando!',
@@ -28,6 +30,8 @@ module.exports = [
         command: 'turn-on',
 
         handler(room) {
+            room.trim().toLowerCase()
+
             if (room === 'sala') {
                 SonyBravia.turnOn()
                 TPLink.turnOnBulb()
@@ -41,6 +45,8 @@ module.exports = [
         command: 'turn-off',
 
         handler(room) {
+            room.trim().toLowerCase()
+
             if (room === 'sala') {
                 SonyBravia.turnOff()
                 TPLink.turnOffBulb()

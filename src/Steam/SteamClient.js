@@ -76,7 +76,7 @@ class SteamClient {
         }
 
         if (steamID === null) {
-            debug('Se ha tratado de llamar a una persona inválida')
+            debug(`Se ha tratado de llamar a una persona inválida: ${name}`)
             return
         }
 
