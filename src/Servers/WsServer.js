@@ -14,7 +14,7 @@ class WsClient {
         debug(`Se ha conectado Abigaíl (${this.id})`)
 
         this.socket.on('message', this.onMessage)
-        this.socket.on('close', this.onClose)
+        this.socket.on('close', this.onClose.bind(this))
         this.socket.on('pong', this.heartbeat.bind(this))
     }
 
