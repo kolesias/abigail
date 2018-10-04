@@ -47,7 +47,7 @@ class WsClient {
     }
 
     remove() {
-        let removed = remove(clients, (client) => client.id === this.id)
+        let removed = remove(clients, { id: this.id })
 
         if (removed.length === 0) {
             debug(`Se ha intentado eliminar la conexión ${this.id} sin éxito!`)
