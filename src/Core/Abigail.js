@@ -28,12 +28,12 @@ class Abigail {
             // Conexión a TPLink Kasa
             TPLink.connect()
 
-            if (argv.need_tunnel === true) {
-                // Conexión al servidor túnel WebSocket
-                WsClient.connect()
-            } else {
+            if (argv.standalone === true) {
                 // No necesitamos un túnel, abrimos el servidor http para la REST API
                 HttpServer.boot()
+            } else {
+                // Conexión al servidor túnel WebSocket
+                WsClient.connect()
             }
         }
     }

@@ -5,7 +5,7 @@
   "author": "Iván Bravo Bravo <kolesias17@gmail.com>",
   "main": "./src/index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development DEBUG=abigail:* node src/index.js --need_tunnel",
+    "start": "cross-env NODE_ENV=development DEBUG=abigail:* node src/index.js",
     "start_tunnel": "cross-env NODE_ENV=development DEBUG=abigail:* node src/index.js --tunnel"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "lodash": "^4.17.11",
     "minimist": "^1.2.0",
     "node-notifier": "^5.2.1",
+    "node-windows": "^0.1.14",
     "steam": "^1.4.0",
     "supports-color": "^5.5.0",
     "tplink-cloud-api": "^0.3.6",
