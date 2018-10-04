@@ -9,11 +9,17 @@ class WsClient {
     constructor(socket) {
         this.socket = socket
         this.id = uuidv4()
+        this.isAlive = true
 
         debug(`Se ha conectado Abigaíl (${this.id})`)
 
         this.socket.on('message', this.onMessage)
         this.socket.on('close', this.onClose)
+        this.socket.on('pong', this.heartbeat.bind(this))
+    }
+
+    heartbeat() {
+        this.isAlive = true
     }
 
     onMessage(message) {
@@ -22,9 +28,7 @@ class WsClient {
 
     onClose(code, reason) {
         debug(`Se ha cerrado la conexión con Abigail: ${reason}`)
-
-        //remove(clients, (client) => client.id === this.id)
-        clients = []
+        remove(clients, (client) => client.id === this.id)
     }
 
     send(message) {
@@ -33,8 +37,23 @@ class WsClient {
         try {
             this.socket.send(message)
         } catch (error) {
-            remove(clients, (client) => client.id === this.id)
+            this.terminate()
         }
+    }
+
+    terminate() {
+        this.socket.terminate()
+        remove(clients, (client) => client.id === this.id)
+    }
+
+    ping() {
+        if (this.isAlive === false) {
+            this.terminate()
+            return
+        }
+
+        this.isAlive = false
+        this.socket.ping()
     }
 }
 
@@ -54,6 +73,16 @@ class WsServer {
         this.server.on('listening', this.onListening.bind(this))
         this.server.on('connection', this.onConnection)
         this.server.on('error', this.onError)
+
+        setInterval(() => {
+            this.heartbeat()
+        }, 15000)
+    }
+
+    heartbeat() {
+        for (let client of clients) {
+            client.ping()
+        }
     }
 
     onListening() {
