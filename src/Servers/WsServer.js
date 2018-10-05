@@ -27,7 +27,7 @@ class WsClient {
     }
 
     onClose(code, reason) {
-        debug(`Se ha cerrado la conexión con Abigail: ${reason}`)
+        debug(`Se ha cerrado la conexión de Abigail: ${reason}`)
         this.remove()
     }
 
@@ -43,7 +43,7 @@ class WsClient {
 
     terminate() {
         this.socket.terminate()
-        this.remove()
+        //this.remove()
     }
 
     remove() {
@@ -56,11 +56,13 @@ class WsClient {
 
     ping() {
         if (this.socket.readyState === WebSocket.CLOSED || this.socket.readyState === WebSocket.CLOSING) {
+            debug('[ping] Se ha detectado una conexión cerrada, eliminando...')
             this.remove()
             return
         }
 
         if (this.isAlive === false) {
+            debug('[ping] No se ha recibido respuesta de Abigail, eliminando...')
             this.terminate()
             return
         }
