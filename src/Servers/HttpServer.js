@@ -22,16 +22,13 @@ class HttpServer {
         http.get('/', (req, res) => res.send('Abigaíl Home Assistant API'))
 
         http.get('/ping', (req, res) => {
-            ActionsManager.exec('ping', true)
+            const WsServer = require('../Servers/WsServer')
 
-            let removeHandler = bus.on('pong', (...args) => {
-                debug('Se ha recibido PONG con éxito!')
-                removeHandler()
-                res.write('SUCCESS')
-                res.end()
-            })
-
-            debug(`PONG Handlers: ${bus.handlersCount('pong')}`)
+            if (WsServer.isConnected()) {
+                req.end()
+            } else {
+                req.end(404)
+            }
         })
 
         for (let action of actions) {

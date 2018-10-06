@@ -25,13 +25,7 @@ class WsClient {
 
     // Se ha recibido un mensaje
     onMessage(message) {
-        debug(`Se ha recibido un mensaje de Abigail: ${message}`)
-
-        if (message === 'pong') {
-            debug(`PONG Handlers: ${bus.handlersCount('pong')}`)
-            bus.emit('pong')
-            bus.emit('pong', true)
-        }
+        debug(`Se ha recibido un mensaje de Abigail: ${message} - ESTO NO DEBERIA PASAR!`)
     }
 
     // Se ha cerrado la conexión

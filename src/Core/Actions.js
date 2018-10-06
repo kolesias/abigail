@@ -5,15 +5,6 @@ const TPLink = require('../Devices/TPLink')
 
 module.exports = [
     {
-        command: 'ping',
-
-        handler() {
-            const WsClient = require('../Servers/WsClient')
-            WsClient.send('pong')
-        }
-    },
-
-    {
         path: '/call/:value',
 
         command: 'call',
