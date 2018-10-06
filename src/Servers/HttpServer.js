@@ -27,7 +27,7 @@ class HttpServer {
             if (WsServer.isConnected()) {
                 res.end()
             } else {
-                res.end(404)
+                res.status(404).end()
             }
         })
 
