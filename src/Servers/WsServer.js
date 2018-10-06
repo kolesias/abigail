@@ -1,8 +1,8 @@
 const debug = require('debug')('abigail:ws-server')
 const remove = require('lodash/remove')
 const uuidv4 = require('uuid/v4')
-const bus = require('simple-event-bus')
 const WebSocket = require('ws')
+const bus = require('../Core/bus')
 
 let abigail = null
 

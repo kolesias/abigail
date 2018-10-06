@@ -1,6 +1,6 @@
 const debug = require('debug')('abigail:http-server')
 const http = require('express')()
-const bus = require('simple-event-bus')
+const bus = require('../Core/Bus')
 const ActionsManager = require('../Core/ActionsManager')
 const actions = require('../Core/Actions')
 
