@@ -30,6 +30,8 @@ class HttpServer {
                 res.write('SUCCESS')
                 res.end()
             })
+
+            debug(`PONG Handlers: ${bus.handlersCount('pong')}`)
         })
 
         for (let action of actions) {

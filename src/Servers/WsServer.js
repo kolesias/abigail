@@ -28,7 +28,7 @@ class WsClient {
         debug(`Se ha recibido un mensaje de Abigail: ${message}`)
 
         if (message === 'pong') {
-            debug(`Se ha recibido PONG: ${bus.handlersCount('pong')}`)
+            debug(`PONG Handlers: ${bus.handlersCount('pong')}`)
             bus.emit('pong')
             bus.emit('pong', true)
         }
