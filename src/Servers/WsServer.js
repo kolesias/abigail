@@ -89,7 +89,7 @@ class WsServer {
         })
 
         this.server.on('listening', this.onListening.bind(this))
-        this.server.on('connection', this.onConnection)
+        this.server.on('connection', this.onConnection.bind(this))
         this.server.on('error', this.onError)
 
         setInterval(() => {
