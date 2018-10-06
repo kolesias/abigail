@@ -24,7 +24,7 @@ class HttpServer {
         http.get('/ping', (req, res) => {
             ActionsManager.exec('ping', true)
 
-            let removeHandler = bus.on('pong', () => {
+            let removeHandler = bus.on('pong', (...args) => {
                 debug('Se ha recibido PONG con éxito!')
                 removeHandler()
                 res.write('SUCCESS')
