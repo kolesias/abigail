@@ -28,6 +28,7 @@ class WsClient {
         debug(`Se ha recibido un mensaje de Abigail: ${message}`)
 
         if (message === 'pong') {
+            debug('Se ha recibido PONG...')
             bus.emit('pong')
         }
     }
