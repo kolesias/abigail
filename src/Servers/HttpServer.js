@@ -25,9 +25,9 @@ class HttpServer {
             const WsServer = require('../Servers/WsServer')
 
             if (WsServer.isConnected()) {
-                req.end()
+                res.end()
             } else {
-                req.end(404)
+                res.end(404)
             }
         })
 
