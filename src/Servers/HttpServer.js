@@ -22,7 +22,7 @@ class HttpServer {
         http.get('/', (req, res) => res.send('Abigaíl Home Assistant API'))
 
         http.get('/ping', (req, res) => {
-            ActionsManager.exec('ping')
+            ActionsManager.exec('ping', true)
 
             let removeHandler = bus.on('pong', () => {
                 removeHandler()
@@ -32,6 +32,10 @@ class HttpServer {
         })
 
         for (let action of actions) {
+            if (action.path === undefined) {
+                continue
+            }
+
             http.get(`/actions${action.path}`, (req, res) => {
                 debug(`API: ${action.path} - ${action.command} - ${req.params.value}`)
                 ActionsManager.exec(action.command, req.params.value)

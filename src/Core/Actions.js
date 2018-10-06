@@ -6,8 +6,6 @@ const WsClient = require('../Servers/WsClient')
 
 module.exports = [
     {
-        path: '/ping',
-
         command: 'ping',
 
         handler() {
