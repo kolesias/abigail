@@ -1,5 +1,6 @@
 const debug = require('debug')('abigail:http-server')
 const http = require('express')()
+const bus = require('simple-event-bus')
 const ActionsManager = require('../Core/ActionsManager')
 const actions = require('../Core/Actions')
 
@@ -19,6 +20,16 @@ class HttpServer {
 
     routes() {
         http.get('/', (req, res) => res.send('Abigaíl Home Assistant API'))
+
+        http.get('/ping', (req, res) => {
+            ActionsManager.exec('ping')
+
+            let removeHandler = bus.on('pong', () => {
+                removeHandler()
+                res.write('SUCCESS')
+                res.end()
+            })
+        })
 
         for (let action of actions) {
             http.get(`/actions${action.path}`, (req, res) => {

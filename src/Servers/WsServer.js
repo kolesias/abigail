@@ -1,9 +1,10 @@
 const debug = require('debug')('abigail:ws-server')
 const remove = require('lodash/remove')
 const uuidv4 = require('uuid/v4')
+const bus = require('simple-event-bus')
 const WebSocket = require('ws')
 
-let clients = []
+let abigail = null
 
 class WsClient {
     constructor(socket) {
@@ -18,19 +19,27 @@ class WsClient {
         this.socket.on('pong', this.heartbeat.bind(this))
     }
 
+    // Se ha recibido respuesta, la conexión sigue activa
     heartbeat() {
         this.isAlive = true
     }
 
+    // Se ha recibido un mensaje
     onMessage(message) {
-        debug(`Se ha recibido un mensaje de Abigail: ${message} - ESTO NO DEBERIA SUCEDER!`)
+        debug(`Se ha recibido un mensaje de Abigail: ${message}`)
+
+        if (message === 'pong') {
+            bus.emit('pong')
+        }
     }
 
+    // Se ha cerrado la conexión
     onClose(code, reason) {
         debug(`Se ha cerrado la conexión de Abigail: ${reason}`)
-        this.remove()
+        abigail = null
     }
 
+    // Envía un mensaje a la conexión
     send(message) {
         message = JSON.stringify(message)
 
@@ -41,28 +50,21 @@ class WsClient {
         }
     }
 
+    // Cierra la conexión
     terminate() {
         this.socket.terminate()
-        //this.remove()
     }
 
-    remove() {
-        let removed = remove(clients, { id: this.id })
-
-        if (removed.length === 0) {
-            debug(`Se ha intentado eliminar la conexión ${this.id} sin éxito!`)
-        }
-    }
-
+    // Hace un ping y verifica si la conexión sigue activa
     ping() {
         if (this.socket.readyState === WebSocket.CLOSED || this.socket.readyState === WebSocket.CLOSING) {
-            debug('[ping] Se ha detectado una conexión cerrada, eliminando...')
-            this.remove()
+            debug('[ping] Se ha detectado una conexión cerrada!')
+            abigail = null
             return
         }
 
         if (this.isAlive === false) {
-            debug('[ping] No se ha recibido respuesta de Abigail, eliminando...')
+            debug('[ping] No se ha recibido una respuesta de Abigail!')
             this.terminate()
             return
         }
@@ -79,6 +81,7 @@ class WsServer {
         this.server = null
     }
 
+    // Inicia el servidor de túnel
     boot() {
         this.server = new WebSocket.Server({
             host: this.host,
@@ -94,29 +97,48 @@ class WsServer {
         }, 15000)
     }
 
-    heartbeat() {
-        for (let client of clients) {
-            client.ping()
-        }
+    // Devuelve si Abigaíl esta conectada al servidor
+    isConnected() {
+        return abigail !== null
     }
 
+    // Asegura que Abigaíl siga conectada
+    heartbeat() {
+        if (!this.isConnected()) {
+            return
+        }
+
+        abigail.ping()
+    }
+
+    // Servidor iniciado
     onListening() {
         debug(`[${this.host}:${this.port}] Tunel abierto`)
     }
 
+    // Se ha recibido una nueva conexión
     onConnection(socket) {
-        let client = new WsClient(socket)
-        clients.push(client)
+        if (this.isConnected()) {
+            debug('Se ha recibido una nueva conexión pero Abigaíl ya esta conectada!')
+            socket.terminate()
+            return
+        }
+
+        abigail = new WsClient(socket)
     }
 
+    // Ha ocurrido un error en el servidor
     onError(error) {
         debug(`Error al abrir el tunel: ${error}`)
     }
 
-    sendToAll(message) {
-        for (let client of clients) {
-            client.send(message)
+    // Envía un mensaje a abigaíl
+    send(message) {
+        if (!this.isConnected()) {
+            return
         }
+
+        abigail.send(message)
     }
 }
 

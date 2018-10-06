@@ -52,6 +52,10 @@ class WsClient {
         }, 1500)
     }
 
+    send(message) {
+        this.client.send(message)
+    }
+
     onConnected() {
         debug(`Conexión éxitosa al túnel`)
 

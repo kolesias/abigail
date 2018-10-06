@@ -20,6 +20,7 @@
     "minimist": "^1.2.0",
     "node-notifier": "^5.2.1",
     "node-windows": "^0.1.14",
+    "simple-event-bus": "^1.0.1",
     "steam": "^1.4.0",
     "supports-color": "^5.5.0",
     "tplink-cloud-api": "^0.3.6",

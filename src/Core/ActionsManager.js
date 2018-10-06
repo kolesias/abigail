@@ -13,7 +13,7 @@ class ActionsManager {
         value = value || null
 
         if (argv.tunnel === true) {
-            WsServer.sendToAll({
+            WsServer.send({
                 command,
                 value
             })
@@ -21,7 +21,7 @@ class ActionsManager {
             let action = find(actions, { command })
 
             if (action === undefined) {
-                debug('Comando inexistente')
+                debug('Comando desconocido')
                 return
             }
 
