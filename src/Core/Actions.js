@@ -2,13 +2,13 @@ const SteamClient = require('../Steam/SteamClient')
 const notifier = require('node-notifier')
 const SonyBravia = require('../Devices/SonyBravia')
 const TPLink = require('../Devices/TPLink')
-const WsClient = require('../Servers/WsClient')
 
 module.exports = [
     {
         command: 'ping',
 
         handler() {
+            const WsClient = require('../Servers/WsClient')
             WsClient.send('pong')
         }
     },

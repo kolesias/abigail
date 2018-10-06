@@ -73,9 +73,6 @@ class WsClient {
             return
         }
 
-        debug(ActionsManager)
-        debug(ActionsManager.exec)
-
         ActionsManager.exec(message.command, message.value)
     }
 
